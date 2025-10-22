@@ -1,0 +1,26 @@
+# .dockerignore
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+*.md
+!README.md
+.DS_Store
+.vscode
+.idea
+coverage
+.nyc_output
+dist
+build
+*.log
+database.sqlite
+*.sqlite
+tests/
+.eslintrc*
+.prettierrc*
+Dockerfile
+.dockerignore
+docker-compose.yml

@@ -1,0 +1,62 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: travelinapi
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_STORAGE=/app/data/database.sqlite
+      - DB_DIALECT=sqlite
+      - LOG_LEVEL=debug
+    volumes:
+      # Mount source code for development (hot reload)
+      - ./src:/app/src
+      - ./migrations:/app/migrations
+      - ./seeders:/app/seeders
+      # Persist database
+      - sqlite-data:/app/data
+    restart: unless-stopped
+    networks:
+      - travelinapi-network
+
+  # Optional: Add a development container with nodemon
+  api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: travelinapi-dev
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_STORAGE=/app/data/database.sqlite
+      - DB_DIALECT=sqlite
+      - LOG_LEVEL=debug
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - sqlite-data-dev:/app/data
+    command: npm run dev
+    restart: unless-stopped
+    networks:
+      - travelinapi-network
+    profiles:
+      - dev
+
+volumes:
+  sqlite-data:
+    driver: local
+  sqlite-data-dev:
+    driver: local
+
+networks:
+  travelinapi-network:
+    driver: bridge

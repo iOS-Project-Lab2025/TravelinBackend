@@ -1,0 +1,163 @@
+{
+    "data": [
+        {
+            "type": "hotel-offers",
+            "hotel": {
+                "type": "hotel",
+                "hotelId": "HIDEL429",
+                "chainCode": "HI",
+                "dupeId": "700221452",
+                "name": "Holiday Inn New Delhi Intl Arpt",
+                "cityCode": "DEL",
+                "latitude": 28.55583,
+                "longitude": 77.09681,
+                "pictures": [
+                    "https://www.holidayinn.com/content/dam/holiday-inn/india/delhi/delhi-international-airport/hi-delhi-airport-1.jpg",
+                    "https://www.holidayinn.com/content/dam/holiday-inn/india/delhi/delhi-international-airport/hi-delhi-airport-2.jpg",
+                    "https://www.holidayinn.com/content/dam/holiday-inn/india/delhi/delhi-international-airport/hi-delhi-airport-3.jpg"
+                ]
+            },
+            "available": true,
+            "offers": [
+                {
+                    "id": "9S0WC96W8V",
+                    "checkInDate": "2025-10-21",
+                    "checkOutDate": "2025-10-22",
+                    "rateCode": "57J",
+                    "boardType": "ROOM_ONLY",
+                    "room": {
+                        "type": "*1K",
+                        "typeEstimated": {
+                            "category": "STANDARD_ROOM",
+                            "beds": 1,
+                            "bedType": "KING"
+                        },
+                        "description": {
+                            "text": "BEST FLEXIBLE RATE\n1 King Bed Standard Nonsmoking 32 SqM Room With\noffers Ergonomic work area extra bed extra",
+                            "lang": "EN"
+                        }
+                    },
+                    "guests": {
+                        "adults": 1
+                    },
+                    "price": {
+                        "currency": "INR",
+                        "base": "14689.00",
+                        "total": "17773.69",
+                        "taxes": [
+                            {
+                                "code": "TOTAL_TAX",
+                                "percentage": "18.00",
+                                "included": false
+                            },
+                            {
+                                "code": "SERVICE_CHARGE",
+                                "pricingFrequency": "PER_NIGHT",
+                                "pricingMode": "PER_PRODUCT",
+                                "percentage": "3.00",
+                                "included": false
+                            }
+                        ],
+                        "variations": {
+                            "average": {
+                                "base": "14689.00"
+                            },
+                            "changes": [
+                                {
+                                    "startDate": "2025-10-21",
+                                    "endDate": "2025-10-22",
+                                    "base": "14689.00"
+                                }
+                            ]
+                        }
+                    },
+                    "policies": {
+                        "cancellations": [
+                            {
+                                "numberOfNights": 1,
+                                "deadline": "2025-10-21T18:29:00+05:30",
+                                "policyType": "CANCELLATION"
+                            }
+                        ],
+                        "guarantee": {
+                            "acceptedPayments": {
+                                "creditCards": [
+                                    "AX",
+                                    "VI",
+                                    "CA",
+                                    "DC",
+                                    "CB",
+                                    "JC"
+                                ],
+                                "methods": [
+                                    "CREDIT_CARD"
+                                ],
+                                "creditCardPolicies": [
+                                    {
+                                        "vendorCode": "AX"
+                                    },
+                                    {
+                                        "vendorCode": "VI"
+                                    },
+                                    {
+                                        "vendorCode": "CA"
+                                    },
+                                    {
+                                        "vendorCode": "DC"
+                                    },
+                                    {
+                                        "vendorCode": "CB"
+                                    },
+                                    {
+                                        "vendorCode": "JC"
+                                    }
+                                ]
+                            }
+                        },
+                        "paymentType": "guarantee",
+                        "refundable": {
+                            "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+                        }
+                    },
+                    "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers/9S0WC96W8V",
+                    "roomInformation": {
+                        "description": "BEST FLEXIBLE RATE\n1 King Bed Standard Nonsmoking 32 SqM Room With\noffers Ergonomic work area extra bed extra",
+                        "type": "*1K",
+                        "typeEstimated": {
+                            "bedType": "KING",
+                            "beds": 1,
+                            "category": "STANDARD_ROOM"
+                        }
+                    }
+                }
+            ],
+            "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HIDEL429&adults=1"
+        }
+    ],
+    "warnings": [
+        {
+            "code": 1351,
+            "title": "VERIFY CHAIN/REP CODE",
+            "detail": "Provider Error - VERIFY CHAIN/REP CODE",
+            "source": {
+                "parameter": "hotelIds=FGDELBGR"
+            }
+        },
+        {
+            "code": 3664,
+            "title": "NO ROOMS AVAILABLE AT REQUESTED PROPERTY",
+            "detail": "Provider Error - NO ROOMS AVAILABLE AT REQUESTED PROPERTY",
+            "source": {
+                "parameter": "hotelIds=SXDEL715"
+            }
+        },
+        {
+            "code": 1257,
+            "title": "INVALID PROPERTY CODE",
+            "detail": "Provider Error - INVALID PROPERTY CODE",
+            "source": {
+                "parameter": "hotelIds=TJDELGUR,YXDELCOR"
+            }
+        }
+    ]
+}
