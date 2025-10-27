@@ -5,6 +5,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const now = new Date();
 
+    // Skipping insertion if the table is not empty
+    const existingEntries = await queryInterface.sequelize.query(
+      'SELECT COUNT(*) AS count FROM points_of_interest;',
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+    if (existingEntries[0].count > 0) {
+      console.log('points_of_interest table is not empty. Skipping seeder.');
+      return;
+    }
+
     await queryInterface.bulkInsert('points_of_interest', [
       {
         id: '9CB40CB5D0',
