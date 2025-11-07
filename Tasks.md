@@ -787,6 +787,13 @@
 - [ ] Category filtering works
 - [ ] Results ordered by rank
 - [ ] Response format matches Swagger spec exactly
+- [x] User registration works
+- [x] User login works
+- [x] JWT authentication works
+- [x] Add POI to favorites works
+- [x] Remove POI from favorites works
+- [x] Get user favorites works with pagination
+- [x] Check if POI is favorited works
 
 ### Quality
 - [ ] All tests passing
@@ -875,9 +882,10 @@
 | Phase 8 | Documentation | 5 hours | 2 hours | ✅ |
 | Phase 9 | Polish | 10 hours | - | ⏳ |
 | Phase 10 | QA & Deploy | 13 hours | - | ⏳ |
-| **Total** | **58 tasks** | **84 hours** | **13 hours** | **🔄** |
+| Phase 11 | Authentication & Favorites | 10 hours | 3 hours | ✅ |
+| **Total** | **60 tasks** | **94 hours** | **16 hours** | **🔄** |
 
-**Progress**: 24% (16/58 tasks completed, Phase 7 skipped)
+**Progress**: 30% (18/60 tasks completed, Phase 7 skipped)
 
 ---
 
@@ -906,9 +914,9 @@ Once you're ready to begin implementation:
 
 ---
 
-**Last Updated**: October 15, 2025  
+**Last Updated**: November 6, 2025  
 **Updated By**: Development Team  
-**Next Review**: After Phase 5 completion
+**Next Review**: After Phase 11 completion
 
 ---
 
@@ -1262,3 +1270,190 @@ API is fully functional and ready for comprehensive testing! All 3 endpoints wor
 ### Ready for Phase 9:
 API is fully documented and configured. Ready for production polish (security enhancements, logging, performance optimization, graceful shutdown improvements).
 
+---
+
+## Phase 11: Authentication & User Favorites
+
+**Status**: ✅ Completed  
+**Date**: November 6, 2025  
+**Time Taken**: ~3 hours
+
+### Task 11.1: User Registration & Authentication ✅
+**Priority**: High | **Estimated**: 6 hours | **Completed**: November 6, 2025
+
+- [x] Install authentication dependencies:
+  ```bash
+  npm install bcrypt jsonwebtoken
+  ```
+- [x] Create User model migration (`create-users`):
+  - `id` (INTEGER, PRIMARY KEY, AUTO_INCREMENT)
+  - `email` (STRING, UNIQUE, NOT NULL)
+  - `password` (STRING, NOT NULL) - will be hashed
+  - `firstName` (STRING, optional)
+  - `lastName` (STRING, optional)
+  - `createdAt`, `updatedAt` (timestamps)
+  - Index on email for fast lookups
+- [x] Create User Sequelize model (`src/models/User.js`):
+  - Password hashing with bcrypt (beforeCreate, beforeUpdate hooks)
+  - `checkPassword(password)` instance method
+  - `toPublicJSON()` method (excludes password)
+  - Email validation
+  - Password length validation (6-255 characters)
+- [x] Create authentication service (`src/services/AuthService.js`):
+  - `register(userData)` - Create new user with hashed password
+  - `login(email, password)` - Authenticate and generate JWT token
+  - `generateToken(user)` - Create JWT with user payload
+  - `verifyToken(token)` - Verify and decode JWT token
+  - `getUserById(userId)` - Get user by ID
+- [x] Create authentication middleware (`src/middleware/auth.js`):
+  - `authenticate` - Verify JWT token, attach user to req.user
+  - `optionalAuthenticate` - Optional auth (doesn't fail if missing)
+  - Extract token from Authorization: Bearer <token> header
+- [x] Create authentication controller (`src/controllers/AuthController.js`):
+  - `register` - POST /v1/auth/register
+  - `login` - POST /v1/auth/login
+  - `getMe` - GET /v1/auth/me (requires authentication)
+- [x] Create validation middleware for auth:
+  - `validateRegister` - Email format, password length (6-255)
+  - `validateLogin` - Email and password required
+- [x] Create auth routes (`src/routes/auth.routes.js`):
+  - POST /v1/auth/register
+  - POST /v1/auth/login
+  - GET /v1/auth/me (protected)
+- [x] Mount auth routes in main router
+
+**Files Created**:
+- `migrations/20251106141559-create-users.js`
+- `src/models/User.js`
+- `src/services/AuthService.js`
+- `src/middleware/auth.js`
+- `src/controllers/AuthController.js`
+- `src/routes/auth.routes.js`
+
+---
+
+### Task 11.2: User Favorites System ✅
+**Priority**: High | **Estimated**: 4 hours | **Completed**: November 6, 2025
+
+- [x] Create UserFavorite join table migration (`create-user-favorites`):
+  - `id` (INTEGER, PRIMARY KEY, AUTO_INCREMENT)
+  - `userId` (INTEGER, FOREIGN KEY -> users.id, CASCADE)
+  - `poiId` (STRING, FOREIGN KEY -> points_of_interest.id, CASCADE)
+  - `createdAt`, `updatedAt` (timestamps)
+  - Unique constraint on (userId, poiId) to prevent duplicates
+  - Indexes on userId and poiId for fast queries
+- [x] Create UserFavorite Sequelize model (`src/models/UserFavorite.js`):
+  - Define many-to-many relationship between User and PointOfInterest
+  - Configure associations in `src/models/index.js`
+- [x] Create Favorites service (`src/services/FavoritesService.js`):
+  - `addFavorite(userId, poiId)` - Add POI to user's favorites
+  - `removeFavorite(userId, poiId)` - Remove POI from favorites
+  - `getUserFavorites(userId, options)` - Get all user favorites with pagination
+  - `isFavorited(userId, poiId)` - Check if POI is favorited
+  - `getFavoriteCount(poiId)` - Get count of users who favorited a POI
+- [x] Create Favorites controller (`src/controllers/FavoritesController.js`):
+  - `addFavorite` - POST /v1/favorites (requires auth)
+  - `removeFavorite` - DELETE /v1/favorites/:poiId (requires auth)
+  - `getFavorites` - GET /v1/favorites (requires auth, supports pagination)
+  - `checkFavorite` - GET /v1/favorites/:poiId/check (requires auth)
+- [x] Create validation middleware for favorites:
+  - `validateAddFavorite` - Validate poiId in request body
+  - `validateGetFavorites` - Validate pagination parameters
+- [x] Create favorites routes (`src/routes/favorites.routes.js`):
+  - GET /v1/favorites (protected, paginated)
+  - POST /v1/favorites (protected)
+  - GET /v1/favorites/:poiId/check (protected)
+  - DELETE /v1/favorites/:poiId (protected)
+- [x] Mount favorites routes in main router
+- [x] Run migrations successfully
+
+**Files Created**:
+- `migrations/20251106141600-create-user-favorites.js`
+- `src/models/UserFavorite.js`
+- `src/services/FavoritesService.js`
+- `src/controllers/FavoritesController.js`
+- `src/routes/favorites.routes.js`
+
+**Database Schema**:
+- ✅ `users` table created with email uniqueness
+- ✅ `user_favorites` join table created with foreign keys
+- ✅ Relationships configured: User <-> PointOfInterest (many-to-many)
+
+### Phase 11 Completion Summary
+
+**Status**: ✅ Completed  
+**Date**: November 6, 2025  
+**Time Taken**: ~3 hours
+
+### What Was Completed:
+1. ✅ Installed authentication dependencies (bcrypt, jsonwebtoken)
+2. ✅ Created User model and migration with password hashing
+3. ✅ Created UserFavorite join table for many-to-many relationship
+4. ✅ Implemented authentication service with JWT token generation
+5. ✅ Created authentication middleware for protecting routes
+6. ✅ Implemented user registration endpoint (POST /v1/auth/register)
+7. ✅ Implemented user login endpoint (POST /v1/auth/login)
+8. ✅ Implemented get current user endpoint (GET /v1/auth/me)
+9. ✅ Created favorites service with CRUD operations
+10. ✅ Implemented add favorite endpoint (POST /v1/favorites)
+11. ✅ Implemented remove favorite endpoint (DELETE /v1/favorites/:poiId)
+12. ✅ Implemented get favorites endpoint (GET /v1/favorites) with pagination
+13. ✅ Implemented check favorite endpoint (GET /v1/favorites/:poiId/check)
+14. ✅ Added comprehensive validation middleware for all auth endpoints
+15. ✅ All migrations run successfully
+
+### API Endpoints Added:
+- **Authentication**:
+  - `POST /v1/auth/register` - Register new user
+  - `POST /v1/auth/login` - Login and get JWT token
+  - `GET /v1/auth/me` - Get current user (protected)
+- **Favorites**:
+  - `GET /v1/favorites` - Get user's favorites (protected, paginated)
+  - `POST /v1/favorites` - Add POI to favorites (protected)
+  - `GET /v1/favorites/:poiId/check` - Check if POI is favorited (protected)
+  - `DELETE /v1/favorites/:poiId` - Remove POI from favorites (protected)
+
+### Security Features:
+- ✅ Password hashing with bcrypt (10 salt rounds)
+- ✅ JWT token-based authentication
+- ✅ Token expiration (default: 7 days, configurable via JWT_EXPIRES_IN)
+- ✅ Protected routes require valid JWT token
+- ✅ Email uniqueness enforced at database level
+- ✅ Password validation (minimum 6 characters)
+
+### Environment Variables:
+Add to `.env` file:
+```
+JWT_SECRET=your-secret-key-change-in-production
+JWT_EXPIRES_IN=7d
+```
+
+### Usage Example:
+```bash
+# Register a new user
+curl -X POST http://localhost:3000/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"password123","firstName":"John","lastName":"Doe"}'
+
+# Login
+curl -X POST http://localhost:3000/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"password123"}'
+
+# Add favorite (use token from login response)
+curl -X POST http://localhost:3000/v1/favorites \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-token>" \
+  -d '{"poiId":"9CB40CB5D0"}'
+
+# Get favorites
+curl -X GET http://localhost:3000/v1/favorites \
+  -H "Authorization: Bearer <your-token>"
+```
+
+### Ready for Next Phase:
+Authentication and favorites system is complete and ready for use. Users can now register, login, and manage their favorite Points of Interest.
+
+---
+
+## Phase 9: Polish & Production Readiness

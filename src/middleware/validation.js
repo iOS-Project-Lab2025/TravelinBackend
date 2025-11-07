@@ -351,10 +351,209 @@ function validateGetPoiById(req, res, next) {
   }
 }
 
+/**
+ * Validate POST /auth/register endpoint
+ * 
+ * Required: email, password
+ * Optional: firstName, lastName
+ */
+function validateRegister(req, res, next) {
+  try {
+    const { email, password, firstName, lastName } = req.body;
+
+    // Validate email (required)
+    if (!email || typeof email !== 'string' || email.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'email is required',
+        { parameter: 'email' }
+      );
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      throw new ValidationError(
+        'email must be a valid email address',
+        { parameter: 'email', example: email }
+      );
+    }
+
+    // Validate password (required)
+    if (!password || typeof password !== 'string') {
+      throw new MandatoryDataMissingError(
+        'password is required',
+        { parameter: 'password' }
+      );
+    }
+
+    if (password.length < 6) {
+      throw new ValidationError(
+        'password must be at least 6 characters long',
+        { parameter: 'password' }
+      );
+    }
+
+    if (password.length > 255) {
+      throw new ValidationError(
+        'password must be less than 255 characters',
+        { parameter: 'password' }
+      );
+    }
+
+    // Validate firstName (optional)
+    if (firstName !== undefined && firstName !== null) {
+      if (typeof firstName !== 'string') {
+        throw new ValidationError(
+          'firstName must be a string',
+          { parameter: 'firstName' }
+        );
+      }
+      if (firstName.length > 255) {
+        throw new ValidationError(
+          'firstName must be less than 255 characters',
+          { parameter: 'firstName' }
+        );
+      }
+    }
+
+    // Validate lastName (optional)
+    if (lastName !== undefined && lastName !== null) {
+      if (typeof lastName !== 'string') {
+        throw new ValidationError(
+          'lastName must be a string',
+          { parameter: 'lastName' }
+        );
+      }
+      if (lastName.length > 255) {
+        throw new ValidationError(
+          'lastName must be less than 255 characters',
+          { parameter: 'lastName' }
+        );
+      }
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Validate POST /auth/login endpoint
+ * 
+ * Required: email, password
+ */
+function validateLogin(req, res, next) {
+  try {
+    const { email, password } = req.body;
+
+    // Validate email (required)
+    if (!email || typeof email !== 'string' || email.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'email is required',
+        { parameter: 'email' }
+      );
+    }
+
+    // Validate password (required)
+    if (!password || typeof password !== 'string') {
+      throw new MandatoryDataMissingError(
+        'password is required',
+        { parameter: 'password' }
+      );
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Validate POST /favorites endpoint
+ * 
+ * Required: poiId
+ */
+function validateAddFavorite(req, res, next) {
+  try {
+    const { poiId } = req.body;
+
+    // Validate poiId (required)
+    if (!poiId || typeof poiId !== 'string' || poiId.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'poiId is required',
+        { parameter: 'poiId' }
+      );
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Validate GET /favorites endpoint pagination
+ */
+function validateGetFavorites(req, res, next) {
+  try {
+    const limit = req.query['page[limit]'];
+    const offset = req.query['page[offset]'];
+
+    // Validate page[limit] (optional)
+    if (limit !== undefined) {
+      const lim = parseInt(limit, 10);
+      if (isNaN(lim)) {
+        throw new ValidationError(
+          'page[limit] must be a valid integer',
+          { parameter: 'page[limit]', example: limit }
+        );
+      }
+
+      if (lim < 1 || lim > 100) {
+        throw new InvalidOptionError(
+          'page[limit] must be between 1 and 100',
+          { parameter: 'page[limit]', example: lim }
+        );
+      }
+    }
+
+    // Validate page[offset] (optional)
+    if (offset !== undefined) {
+      const off = parseInt(offset, 10);
+      if (isNaN(off)) {
+        throw new ValidationError(
+          'page[offset] must be a valid integer',
+          { parameter: 'page[offset]', example: offset }
+        );
+      }
+
+      if (off < 0) {
+        throw new ValidationError(
+          'page[offset] must be a non-negative integer',
+          { parameter: 'page[offset]', example: off }
+        );
+      }
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   validateGetPois,
   validateGetPoisBySquare,
   validateGetPoiById,
+  validateRegister,
+  validateLogin,
+  validateAddFavorite,
+  validateGetFavorites,
   VALID_CATEGORIES,
 };
 
