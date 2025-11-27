@@ -34,5 +34,8 @@ router.post('/login', validateLogin, AuthController.login);
  */
 router.get('/me', authenticate, AuthController.getMe);
 
+
+router.post('/refresh', AuthController.refreshToken);
+
 module.exports = router;
 
