@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { ValidationError, NotFoundError, InvalidDataError } = require('../utils/errors');
+const {
+  ValidationError,
+  NotFoundError,
+  InvalidDataError,
+  UnauthorizedError,
+} = require('../utils/errors');
 const config = require('../config');
 
 /**
@@ -64,13 +69,55 @@ class AuthService {
       throw new InvalidDataError('Invalid email or password');
     }
 
-    // Generate JWT token
-    const token = this.generateToken(user);
+    // 1. Generamos ambos tokens
+    const accessToken = this.generateAccessToken(user);
+    const refreshToken = this.generateRefreshToken(user);
 
     return {
       user: user.toPublicJSON(),
-      token,
+      accessToken,
+      refreshToken,
     };
+  }
+
+  // 2. Método para renovar token
+  static async refreshToken(incomingRefreshToken) {
+    if (!incomingRefreshToken) {
+      throw new ValidationError('Refresh token is required');
+    }
+
+    try {
+      // Verificar el Refresh Token usando nuestro secreto
+      const secret = process.env.JWT_REFRESH_SECRET || 'refresh-secret-key';
+      const decoded = jwt.verify(incomingRefreshToken, secret);
+
+      const user = await User.findByPk(decoded.id);
+      if (!user) throw new NotFoundError('User not found');
+
+      // Generar nuevo Access Token (de 30s)
+      const newAccessToken = this.generateAccessToken(user);
+
+      return {
+        accessToken: newAccessToken,
+        refreshToken: incomingRefreshToken,
+      };
+    } catch (error) {
+      throw new ValidationError('Invalid or expired refresh token');
+    }
+  }
+
+  // 3. NUEVO: Token corto (30 segundos para la DEMO)
+  static generateAccessToken(user) {
+    const payload = { id: user.id, email: user.email, type: 'access' };
+    const secret = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+    return jwt.sign(payload, secret, { expiresIn: '30s' });
+  }
+
+  // 4. NUEVO: Token largo
+  static generateRefreshToken(user) {
+    const payload = { id: user.id, email: user.email, type: 'refresh' };
+    const secret = process.env.JWT_REFRESH_SECRET || 'refresh-secret-key';
+    return jwt.sign(payload, secret, { expiresIn: '7d' });
   }
 
   /**
@@ -97,7 +144,7 @@ class AuthService {
    */
   static async verifyToken(token) {
     if (!token) {
-      throw new ValidationError('Token is required');
+      throw new UnauthorizedError('Token is required');
     }
 
     const secret = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
@@ -107,11 +154,11 @@ class AuthService {
       return decoded;
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
-        throw new ValidationError('Token has expired');
+        throw new UnauthorizedError('Token has expired');
       } else if (error.name === 'JsonWebTokenError') {
-        throw new ValidationError('Invalid token');
+        throw new UnauthorizedError('Invalid token');
       }
-      throw new ValidationError('Token verification failed');
+      throw new UnauthorizedError('Token verification failed');
     }
   }
 
@@ -130,4 +177,3 @@ class AuthService {
 }
 
 module.exports = AuthService;
-

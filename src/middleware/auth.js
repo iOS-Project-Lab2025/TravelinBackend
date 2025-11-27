@@ -1,4 +1,4 @@
-const { ValidationError } = require('../utils/errors');
+const { UnauthorizedError } = require('../utils/errors');
 const AuthService = require('../services/AuthService');
 const { User } = require('../models');
 
@@ -37,7 +37,7 @@ async function authenticate(req, res, next) {
     const token = extractToken(req);
 
     if (!token) {
-      throw new ValidationError('Authentication token is required', {
+      throw new UnauthorizedError('Authentication token is required', {
         parameter: 'Authorization',
       });
     }
@@ -48,7 +48,7 @@ async function authenticate(req, res, next) {
     // Get user from database
     const user = await User.findByPk(decoded.id);
     if (!user) {
-      throw new ValidationError('User not found');
+      throw new UnauthorizedError('User not found');
     }
 
     // Attach user to request
@@ -89,4 +89,3 @@ module.exports = {
   authenticate,
   optionalAuthenticate,
 };
-
