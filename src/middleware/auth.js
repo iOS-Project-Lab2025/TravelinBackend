@@ -89,4 +89,3 @@ module.exports = {
   authenticate,
   optionalAuthenticate,
 };
-
