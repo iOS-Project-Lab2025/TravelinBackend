@@ -1,6 +1,6 @@
 /**
  * Custom Error Classes
- * 
+ *
  * Extends Error with additional properties for API error responses:
  * - status: HTTP status code
  * - code: Amadeus error code
@@ -81,6 +81,16 @@ class InvalidDataError extends ApiError {
 }
 
 /**
+ * 401 Unauthorized
+ * Amadeus Code: 38187
+ */
+class UnauthorizedError extends ApiError {
+  constructor(detail, source = null) {
+    super(401, 38187, 'UNAUTHORIZED', detail, source);
+  }
+}
+
+/**
  * 404 Not Found
  * Amadeus Code: 1797
  */
@@ -106,7 +116,7 @@ module.exports = {
   MandatoryDataMissingError,
   InvalidOptionError,
   InvalidDataError,
+  UnauthorizedError,
   NotFoundError,
   InternalServerError,
 };
-
