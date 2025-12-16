@@ -88,6 +88,71 @@ async function getPointsOfInterest(req, res, next) {
 }
 
 /**
+ * GET /v1/reference-data/locations/pois/by-name
+ * Search for POIs by name (case-insensitive partial match)
+ * 
+ * Query Parameters:
+ * - name (required): Search string for POI name
+ * - categories (optional): Array of category filters
+ * - page[limit] (optional): Results per page (default: 10, max: 100)
+ * - page[offset] (optional): Number of results to skip (default: 0)
+ * 
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ * @param {function} next - Express next middleware function
+ */
+async function getPointsOfInterestByName(req, res, next) {
+  try {
+    // Extract and validate required parameters
+    const name = req.query.name;
+    
+    // Extract optional parameters with defaults
+    const limit = req.query['page[limit]'] ? parseInt(req.query['page[limit]']) : 10;
+    const offset = req.query['page[offset]'] ? parseInt(req.query['page[offset]']) : 0;
+    
+    // Extract categories (can be array or single value)
+    let categories = null;
+    if (req.query.categories) {
+      if (Array.isArray(req.query.categories)) {
+        categories = req.query.categories;
+      } else if (typeof req.query.categories === 'string') {
+        // Handle comma-separated string or single value
+        categories = req.query.categories.split(',').map(c => c.trim());
+      }
+    }
+
+    // Call service layer
+    const { rows: pois, count: totalCount } = await PoiService.findByName(
+      name,
+      categories,
+      limit,
+      offset
+    );
+
+    // Get base URL from environment or construct from request
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+    const path = '/v1/reference-data/locations/pois/by-name';
+
+    // Format response with pagination metadata
+    const response = formatCollectionResponse(
+      pois,
+      baseUrl,
+      path,
+      req.query,
+      totalCount,
+      limit,
+      offset
+    );
+
+    // Return 200 OK with data
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error in getPointsOfInterestByName:', error.message);
+    next(error);
+  }
+}
+
+/**
  * GET /v1/reference-data/locations/pois/:poisId
  * Get a single POI by ID
  * 
@@ -203,5 +268,6 @@ module.exports = {
   getPointsOfInterest,
   getPointOfInterest,
   getPointsOfInterestBySquare,
+  getPointsOfInterestByName,
 };
 

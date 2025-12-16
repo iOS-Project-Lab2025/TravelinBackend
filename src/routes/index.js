@@ -57,6 +57,7 @@ router.get('/v1', (req, res) => {
     endpoints: {
       pois: '/v1/reference-data/locations/pois',
       poisBySquare: '/v1/reference-data/locations/pois/by-square',
+      poisByName: '/v1/reference-data/locations/pois/by-name',
       poisById: '/v1/reference-data/locations/pois/:poisId',
       auth: {
         register: '/v1/auth/register',

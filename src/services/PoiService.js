@@ -270,6 +270,62 @@ async function getAvailableCategories() {
 }
 
 /**
+ * Find POIs by name (case-insensitive partial match)
+ * 
+ * @param {string} name - Search string for POI name
+ * @param {Array<string>} categories - Optional array of category filters
+ * @param {number} limit - Number of results per page (default: 10)
+ * @param {number} offset - Number of results to skip (default: 0)
+ * @returns {Promise<{rows: Array, count: number}>} POIs and total count
+ */
+async function findByName(
+  name,
+  categories = null,
+  limit = 10,
+  offset = 0
+) {
+  try {
+    // Validate name
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      throw new Error('Name search string is required');
+    }
+
+    // Build query conditions
+    const whereConditions = {
+      name: {
+        [Op.like]: `%${name.trim()}%`,
+      },
+    };
+
+    // Add category filter if provided
+    if (categories && categories.length > 0) {
+      whereConditions.category = {
+        [Op.in]: categories,
+      };
+    }
+
+    // Query database with pagination
+    const { rows, count } = await PointOfInterest.findAndCountAll({
+      where: whereConditions,
+      limit: limit,
+      offset: offset,
+      order: [
+        ['rank', 'ASC'],
+        ['name', 'ASC'],
+      ],
+    });
+
+    return {
+      rows,
+      count,
+    };
+  } catch (error) {
+    console.error('Error in findByName:', error.message);
+    throw error;
+  }
+}
+
+/**
  * Get statistics about POIs in the database
  * 
  * @returns {Promise<object>} Statistics object
@@ -300,6 +356,7 @@ module.exports = {
   findByRadius,
   findByBoundingBox,
   findById,
+  findByName,
   getTotalCount,
   getAvailableCategories,
   getStatistics,

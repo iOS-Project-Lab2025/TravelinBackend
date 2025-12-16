@@ -12,12 +12,14 @@ const {
   getPointsOfInterest,
   getPointOfInterest,
   getPointsOfInterestBySquare,
+  getPointsOfInterestByName,
 } = require('../controllers/PoiController');
 
 // Import validation middleware
 const {
   validateGetPois,
   validateGetPoisBySquare,
+  validateGetPoisByName,
   validateGetPoiById,
 } = require('../middleware/validation');
 
@@ -29,6 +31,15 @@ const {
  * Otherwise Express will match "by-square" as a poisId parameter
  */
 router.get('/by-square', validateGetPoisBySquare, getPointsOfInterestBySquare);
+
+/**
+ * GET /pois/by-name
+ * Search POIs by name (case-insensitive partial match)
+ * 
+ * IMPORTANT: This route must come BEFORE /pois/:poisId
+ * Otherwise Express will match "by-name" as a poisId parameter
+ */
+router.get('/by-name', validateGetPoisByName, getPointsOfInterestByName);
 
 /**
  * GET /pois/:poisId

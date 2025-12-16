@@ -328,6 +328,108 @@ function validateGetPoisBySquare(req, res, next) {
 }
 
 /**
+ * Validate GET /pois/by-name endpoint (search by name)
+ * 
+ * Required: name
+ * Optional: categories, page[limit], page[offset]
+ */
+function validateGetPoisByName(req, res, next) {
+  try {
+    const { name, categories } = req.query;
+    const limit = req.query['page[limit]'];
+    const offset = req.query['page[offset]'];
+
+    // Validate name (required)
+    if (name === undefined || name === null || name === '') {
+      throw new MandatoryDataMissingError(
+        'name is required',
+        { parameter: 'name' }
+      );
+    }
+
+    if (typeof name !== 'string') {
+      throw new ValidationError(
+        'name must be a string',
+        { parameter: 'name', example: name }
+      );
+    }
+
+    if (name.trim().length === 0) {
+      throw new ValidationError(
+        'name cannot be empty',
+        { parameter: 'name' }
+      );
+    }
+
+    if (name.length > 255) {
+      throw new ValidationError(
+        'name must be less than 255 characters',
+        { parameter: 'name' }
+      );
+    }
+
+    // Validate categories (optional) - same as other endpoints
+    if (categories !== undefined && categories !== null && categories !== '') {
+      let categoryArray;
+      
+      if (Array.isArray(categories)) {
+        categoryArray = categories;
+      } else if (typeof categories === 'string') {
+        categoryArray = categories.split(',').map(c => c.trim());
+      } else {
+        throw new ValidationError(
+          'categories must be a string or array',
+          { parameter: 'categories' }
+        );
+      }
+
+      for (const category of categoryArray) {
+        if (!VALID_CATEGORIES.includes(category)) {
+          throw new InvalidOptionError(
+            `Invalid category: ${category}. Valid categories are: ${VALID_CATEGORIES.join(', ')}`,
+            { parameter: 'categories', example: category }
+          );
+        }
+      }
+    }
+
+    // Validate page[limit] (optional)
+    if (limit !== undefined) {
+      const limitNum = parseInt(limit);
+      if (isNaN(limitNum) || limitNum < 1) {
+        throw new ValidationError(
+          'page[limit] must be a positive integer',
+          { parameter: 'page[limit]', example: limit }
+        );
+      }
+
+      if (limitNum > 100) {
+        throw new InvalidOptionError(
+          'page[limit] must not exceed 100',
+          { parameter: 'page[limit]', example: limitNum }
+        );
+      }
+    }
+
+    // Validate page[offset] (optional)
+    if (offset !== undefined) {
+      const offsetNum = parseInt(offset);
+      if (isNaN(offsetNum) || offsetNum < 0) {
+        throw new ValidationError(
+          'page[offset] must be a non-negative integer',
+          { parameter: 'page[offset]', example: offset }
+        );
+      }
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
  * Validate GET /pois/:poisId endpoint (get by ID)
  * 
  * Required: poisId (path parameter)
@@ -549,6 +651,7 @@ function validateGetFavorites(req, res, next) {
 module.exports = {
   validateGetPois,
   validateGetPoisBySquare,
+  validateGetPoisByName,
   validateGetPoiById,
   validateRegister,
   validateLogin,
