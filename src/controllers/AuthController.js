@@ -12,13 +12,14 @@ class AuthController {
    */
   static async register(req, res, next) {
     try {
-      const { email, password, firstName, lastName } = req.body;
+      const { email, password, firstName, lastName, phone } = req.body;
 
       const user = await AuthService.register({
         email,
         password,
         firstName,
         lastName,
+        phone,
       });
 
       // Generate token for newly registered user

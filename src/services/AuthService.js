@@ -20,10 +20,11 @@ class AuthService {
    * @param {string} userData.password - User password
    * @param {string} [userData.firstName] - User first name
    * @param {string} [userData.lastName] - User last name
+   * @param {string} [userData.phone] - User phone number
    * @returns {Promise<object>} Created user (without password)
    */
   static async register(userData) {
-    const { email, password, firstName, lastName } = userData;
+    const { email, password, firstName, lastName, phone } = userData;
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
@@ -39,6 +40,7 @@ class AuthService {
       password, // Will be hashed by model hook
       firstName,
       lastName,
+      phone,
     });
 
     return user.toPublicJSON();

@@ -22,6 +22,7 @@ class User extends Model {
       email: this.email,
       firstName: this.firstName,
       lastName: this.lastName,
+      phone: this.phone,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
@@ -86,6 +87,17 @@ User.init(
         },
       },
       comment: 'User last name',
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: {
+          args: [0, 50],
+          msg: 'Phone must be less than 50 characters',
+        },
+      },
+      comment: 'User phone number',
     },
   },
   {

@@ -457,11 +457,11 @@ function validateGetPoiById(req, res, next) {
  * Validate POST /auth/register endpoint
  * 
  * Required: email, password
- * Optional: firstName, lastName
+ * Optional: firstName, lastName, phone
  */
 function validateRegister(req, res, next) {
   try {
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, firstName, lastName, phone } = req.body;
 
     // Validate email (required)
     if (!email || typeof email !== 'string' || email.trim() === '') {
@@ -530,6 +530,22 @@ function validateRegister(req, res, next) {
         throw new ValidationError(
           'lastName must be less than 255 characters',
           { parameter: 'lastName' }
+        );
+      }
+    }
+
+    // Validate phone (optional)
+    if (phone !== undefined && phone !== null) {
+      if (typeof phone !== 'string') {
+        throw new ValidationError(
+          'phone must be a string',
+          { parameter: 'phone' }
+        );
+      }
+      if (phone.trim().length > 50) {
+        throw new ValidationError(
+          'phone must be less than 50 characters',
+          { parameter: 'phone' }
         );
       }
     }
