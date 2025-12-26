@@ -664,6 +664,251 @@ function validateGetFavorites(req, res, next) {
   }
 }
 
+/**
+ * Validate POST /bookings endpoint
+ * 
+ * Required: poiId, startDate, endDate
+ */
+function validateCreateBooking(req, res, next) {
+  try {
+    const { poiId, startDate, endDate } = req.body;
+
+    // Validate poiId (required)
+    if (!poiId || typeof poiId !== 'string' || poiId.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'poiId is required',
+        { parameter: 'poiId' }
+      );
+    }
+
+    // Validate startDate (required)
+    if (!startDate || typeof startDate !== 'string' || startDate.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'startDate is required',
+        { parameter: 'startDate' }
+      );
+    }
+
+    // Validate startDate format (YYYY-MM-DD)
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(startDate.trim())) {
+      throw new ValidationError(
+        'startDate must be in YYYY-MM-DD format',
+        { parameter: 'startDate', example: startDate }
+      );
+    }
+
+    const start = new Date(startDate);
+    if (isNaN(start.getTime())) {
+      throw new ValidationError(
+        'startDate must be a valid date',
+        { parameter: 'startDate', example: startDate }
+      );
+    }
+
+    // Validate endDate (required)
+    if (!endDate || typeof endDate !== 'string' || endDate.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'endDate is required',
+        { parameter: 'endDate' }
+      );
+    }
+
+    // Validate endDate format (YYYY-MM-DD)
+    if (!dateRegex.test(endDate.trim())) {
+      throw new ValidationError(
+        'endDate must be in YYYY-MM-DD format',
+        { parameter: 'endDate', example: endDate }
+      );
+    }
+
+    const end = new Date(endDate);
+    if (isNaN(end.getTime())) {
+      throw new ValidationError(
+        'endDate must be a valid date',
+        { parameter: 'endDate', example: endDate }
+      );
+    }
+
+    // Validate endDate > startDate
+    if (end <= start) {
+      throw new ValidationError(
+        'endDate must be after startDate',
+        { parameter: 'endDate', example: `${startDate} < ${endDate}` }
+      );
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Validate GET /bookings endpoint pagination
+ */
+function validateGetBookings(req, res, next) {
+  try {
+    const limit = req.query['page[limit]'];
+    const offset = req.query['page[offset]'];
+
+    // Validate page[limit] (optional)
+    if (limit !== undefined) {
+      const lim = parseInt(limit, 10);
+      if (isNaN(lim)) {
+        throw new ValidationError(
+          'page[limit] must be a valid integer',
+          { parameter: 'page[limit]', example: limit }
+        );
+      }
+
+      if (lim < 1 || lim > 100) {
+        throw new InvalidOptionError(
+          'page[limit] must be between 1 and 100',
+          { parameter: 'page[limit]', example: lim }
+        );
+      }
+    }
+
+    // Validate page[offset] (optional)
+    if (offset !== undefined) {
+      const off = parseInt(offset, 10);
+      if (isNaN(off)) {
+        throw new ValidationError(
+          'page[offset] must be a valid integer',
+          { parameter: 'page[offset]', example: offset }
+        );
+      }
+
+      if (off < 0) {
+        throw new ValidationError(
+          'page[offset] must be a non-negative integer',
+          { parameter: 'page[offset]', example: off }
+        );
+      }
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Validate GET /bookings/availability endpoint
+ * 
+ * Required: poiId, startDate, endDate
+ */
+function validateCheckAvailability(req, res, next) {
+  try {
+    const { poiId, startDate, endDate } = req.query;
+
+    // Validate poiId (required)
+    if (!poiId || typeof poiId !== 'string' || poiId.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'poiId is required',
+        { parameter: 'poiId' }
+      );
+    }
+
+    // Validate startDate (required)
+    if (!startDate || typeof startDate !== 'string' || startDate.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'startDate is required',
+        { parameter: 'startDate' }
+      );
+    }
+
+    // Validate startDate format (YYYY-MM-DD)
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(startDate.trim())) {
+      throw new ValidationError(
+        'startDate must be in YYYY-MM-DD format',
+        { parameter: 'startDate', example: startDate }
+      );
+    }
+
+    const start = new Date(startDate);
+    if (isNaN(start.getTime())) {
+      throw new ValidationError(
+        'startDate must be a valid date',
+        { parameter: 'startDate', example: startDate }
+      );
+    }
+
+    // Validate endDate (required)
+    if (!endDate || typeof endDate !== 'string' || endDate.trim() === '') {
+      throw new MandatoryDataMissingError(
+        'endDate is required',
+        { parameter: 'endDate' }
+      );
+    }
+
+    // Validate endDate format (YYYY-MM-DD)
+    if (!dateRegex.test(endDate.trim())) {
+      throw new ValidationError(
+        'endDate must be in YYYY-MM-DD format',
+        { parameter: 'endDate', example: endDate }
+      );
+    }
+
+    const end = new Date(endDate);
+    if (isNaN(end.getTime())) {
+      throw new ValidationError(
+        'endDate must be a valid date',
+        { parameter: 'endDate', example: endDate }
+      );
+    }
+
+    // Validate endDate > startDate
+    if (end <= start) {
+      throw new ValidationError(
+        'endDate must be after startDate',
+        { parameter: 'endDate', example: `${startDate} < ${endDate}` }
+      );
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * Validate GET /bookings/:bookingId endpoint
+ * 
+ * Required: bookingId (path parameter)
+ */
+function validateGetBookingById(req, res, next) {
+  try {
+    const { bookingId } = req.params;
+
+    // Validate bookingId (required)
+    if (!bookingId) {
+      throw new ValidationError(
+        'bookingId is required',
+        { parameter: 'bookingId' }
+      );
+    }
+
+    const id = parseInt(bookingId, 10);
+    if (isNaN(id) || id < 1) {
+      throw new ValidationError(
+        'bookingId must be a positive integer',
+        { parameter: 'bookingId', example: bookingId }
+      );
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   validateGetPois,
   validateGetPoisBySquare,
@@ -673,6 +918,10 @@ module.exports = {
   validateLogin,
   validateAddFavorite,
   validateGetFavorites,
+  validateCreateBooking,
+  validateGetBookings,
+  validateCheckAvailability,
+  validateGetBookingById,
   VALID_CATEGORIES,
 };
 

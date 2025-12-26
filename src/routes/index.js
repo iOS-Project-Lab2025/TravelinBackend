@@ -16,6 +16,7 @@ const swaggerDocument = require('../../spec/PointOfInterest.json');
 const poiRoutes = require('./poi.routes');
 const authRoutes = require('./auth.routes');
 const favoritesRoutes = require('./favorites.routes');
+const bookingRoutes = require('./booking.routes');
 
 /**
  * Mount POI routes at /v1/reference-data/locations/pois
@@ -47,6 +48,17 @@ router.use('/v1/auth', authRoutes);
 router.use('/v1/favorites', favoritesRoutes);
 
 /**
+ * Mount booking routes at /v1/bookings
+ * 
+ * - POST /v1/bookings
+ * - GET /v1/bookings
+ * - GET /v1/bookings/:bookingId
+ * - DELETE /v1/bookings/:bookingId
+ * - GET /v1/bookings/availability
+ */
+router.use('/v1/bookings', bookingRoutes);
+
+/**
  * API information endpoint
  */
 router.get('/v1', (req, res) => {
@@ -69,6 +81,13 @@ router.get('/v1', (req, res) => {
         add: '/v1/favorites',
         check: '/v1/favorites/:poiId/check',
         remove: '/v1/favorites/:poiId',
+      },
+      bookings: {
+        create: '/v1/bookings',
+        list: '/v1/bookings',
+        get: '/v1/bookings/:bookingId',
+        cancel: '/v1/bookings/:bookingId',
+        availability: '/v1/bookings/availability',
       },
       health: '/health',
       documentation: '/api-docs',
