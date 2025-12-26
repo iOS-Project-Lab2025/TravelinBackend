@@ -11,7 +11,7 @@ const router = express.Router();
 const AuthController = require('../controllers/AuthController');
 
 // Import validation middleware
-const { validateRegister, validateLogin } = require('../middleware/validation');
+const { validateRegister, validateLogin, validateDeleteAccount } = require('../middleware/validation');
 
 // Import authentication middleware
 const { authenticate } = require('../middleware/auth');
@@ -34,7 +34,16 @@ router.post('/login', validateLogin, AuthController.login);
  */
 router.get('/me', authenticate, AuthController.getMe);
 
+/**
+ * DELETE /me
+ * Delete user account (requires authentication)
+ */
+router.delete('/me', authenticate, validateDeleteAccount, AuthController.deleteAccount);
 
+/**
+ * POST /refresh
+ * Refresh access token
+ */
 router.post('/refresh', AuthController.refreshToken);
 
 module.exports = router;

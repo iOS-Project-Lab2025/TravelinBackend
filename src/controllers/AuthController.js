@@ -87,6 +87,27 @@ class AuthController {
       next(error);
     }
   }
+
+  /**
+   * Delete user account
+   * DELETE /auth/me
+   */
+  static async deleteAccount(req, res, next) {
+    try {
+      const userId = req.userId;
+      const { password } = req.body; // Optional password confirmation
+
+      await AuthService.deleteUser(userId, password);
+
+      res.status(200).json({
+        data: {
+          message: 'Account deleted successfully',
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = AuthController;
