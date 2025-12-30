@@ -122,9 +122,8 @@ class AuthController {
   static async deleteAccount(req, res, next) {
     try {
       const userId = req.userId;
-      const { password } = req.body; // Optional password confirmation
 
-      await AuthService.deleteUser(userId, password);
+      await AuthService.deleteUser(userId);
 
       res.status(200).json({
         data: {

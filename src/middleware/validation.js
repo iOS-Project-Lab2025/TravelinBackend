@@ -1030,39 +1030,6 @@ function validateUpdateProfile(req, res, next) {
   }
 }
 
-/**
- * Validate DELETE /auth/me endpoint
- * 
- * Optional: password (for confirmation)
- */
-function validateDeleteAccount(req, res, next) {
-  try {
-    const { password } = req.body;
-
-    // Validate password if provided (optional but recommended)
-    if (password !== undefined && password !== null) {
-      if (typeof password !== 'string') {
-        throw new ValidationError(
-          'Password must be a string',
-          { parameter: 'password' }
-        );
-      }
-
-      if (password.trim() === '') {
-        throw new ValidationError(
-          'Password cannot be empty',
-          { parameter: 'password' }
-        );
-      }
-    }
-
-    // All validations passed
-    next();
-  } catch (error) {
-    next(error);
-  }
-}
-
 module.exports = {
   validateGetPois,
   validateGetPoisBySquare,
@@ -1077,7 +1044,6 @@ module.exports = {
   validateCheckAvailability,
   validateGetBookingById,
   validateUpdateProfile,
-  validateDeleteAccount,
   VALID_CATEGORIES,
 };
 

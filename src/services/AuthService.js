@@ -239,28 +239,13 @@ class AuthService {
   /**
    * Delete user account
    * @param {number} userId - User ID
-   * @param {string} [password] - Optional password for confirmation
    * @returns {Promise<object>} Success confirmation
    */
-  static async deleteUser(userId, password = null) {
+  static async deleteUser(userId) {
     // Find user
     const user = await User.findByPk(userId);
     if (!user) {
       throw new NotFoundError('User not found');
-    }
-
-    // Optional: Verify password if provided
-    if (password !== null && password !== undefined) {
-      if (typeof password !== 'string' || password.trim() === '') {
-        throw new ValidationError('Password must be a non-empty string', {
-          parameter: 'password',
-        });
-      }
-
-      const isPasswordValid = await user.checkPassword(password);
-      if (!isPasswordValid) {
-        throw new InvalidDataError('Invalid password');
-      }
     }
 
     // Delete user (CASCADE will handle related data: favorites, bookings)
