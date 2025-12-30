@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+const { Op } = require('sequelize');
 const {
   ValidationError,
   NotFoundError,
@@ -174,6 +175,64 @@ class AuthService {
     if (!user) {
       throw new NotFoundError('User not found');
     }
+    return user.toPublicJSON();
+  }
+
+  /**
+   * Update user profile
+   * @param {number} userId - User ID
+   * @param {object} updateData - Fields to update
+   * @param {string} [updateData.email] - New email
+   * @param {string} [updateData.password] - New password
+   * @param {string} [updateData.firstName] - New first name
+   * @param {string} [updateData.lastName] - New last name
+   * @param {string} [updateData.phone] - New phone
+   * @returns {Promise<object>} Updated user (without password)
+   */
+  static async updateUser(userId, updateData) {
+    const { email, password, firstName, lastName, phone } = updateData;
+
+    // Find user
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    // Check if email is being updated and if it's already taken
+    if (email !== undefined && email !== null) {
+      const existingUser = await User.findOne({
+        where: {
+          email: email.trim(),
+          id: { [Op.ne]: userId }, // Exclude current user
+        },
+      });
+
+      if (existingUser) {
+        throw new ValidationError('Email is already in use', {
+          parameter: 'email',
+        });
+      }
+
+      user.email = email.trim();
+    }
+
+    // Update other fields if provided
+    if (firstName !== undefined) {
+      user.firstName = firstName || null;
+    }
+    if (lastName !== undefined) {
+      user.lastName = lastName || null;
+    }
+    if (phone !== undefined) {
+      user.phone = phone || null;
+    }
+    if (password !== undefined && password !== null) {
+      user.password = password; // Will be hashed by model hook
+    }
+
+    // Save changes
+    await user.save();
+
     return user.toPublicJSON();
   }
 

@@ -34,6 +34,7 @@ router.use('/v1/reference-data/locations/pois', poiRoutes);
  * - POST /v1/auth/register
  * - POST /v1/auth/login
  * - GET /v1/auth/me
+ * - PATCH /v1/auth/me
  * - DELETE /v1/auth/me
  */
 router.use('/v1/auth', authRoutes);
@@ -76,6 +77,7 @@ router.get('/v1', (req, res) => {
         register: '/v1/auth/register',
         login: '/v1/auth/login',
         me: '/v1/auth/me',
+        updateProfile: '/v1/auth/me',
         deleteAccount: '/v1/auth/me',
       },
       favorites: {

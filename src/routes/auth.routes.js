@@ -11,7 +11,7 @@ const router = express.Router();
 const AuthController = require('../controllers/AuthController');
 
 // Import validation middleware
-const { validateRegister, validateLogin, validateDeleteAccount } = require('../middleware/validation');
+const { validateRegister, validateLogin, validateUpdateProfile, validateDeleteAccount } = require('../middleware/validation');
 
 // Import authentication middleware
 const { authenticate } = require('../middleware/auth');
@@ -33,6 +33,12 @@ router.post('/login', validateLogin, AuthController.login);
  * Get current user profile (requires authentication)
  */
 router.get('/me', authenticate, AuthController.getMe);
+
+/**
+ * PATCH /me
+ * Update user profile (requires authentication)
+ */
+router.patch('/me', authenticate, validateUpdateProfile, AuthController.updateProfile);
 
 /**
  * DELETE /me

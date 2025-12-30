@@ -910,6 +910,127 @@ function validateGetBookingById(req, res, next) {
 }
 
 /**
+ * Validate PATCH /auth/me endpoint
+ * 
+ * Optional: email, password, firstName, lastName, phone
+ * At least one field must be provided
+ */
+function validateUpdateProfile(req, res, next) {
+  try {
+    const { email, password, firstName, lastName, phone } = req.body;
+
+    // Check if at least one field is provided
+    const hasFields = email !== undefined || 
+                     password !== undefined || 
+                     firstName !== undefined || 
+                     lastName !== undefined || 
+                     phone !== undefined;
+
+    if (!hasFields) {
+      throw new ValidationError(
+        'At least one field must be provided for update',
+        { parameter: 'body' }
+      );
+    }
+
+    // Validate email if provided
+    if (email !== undefined && email !== null) {
+      if (typeof email !== 'string' || email.trim() === '') {
+        throw new ValidationError(
+          'email must be a non-empty string',
+          { parameter: 'email' }
+        );
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email.trim())) {
+        throw new ValidationError(
+          'email must be a valid email address',
+          { parameter: 'email', example: email }
+        );
+      }
+    }
+
+    // Validate password if provided
+    if (password !== undefined && password !== null) {
+      if (typeof password !== 'string') {
+        throw new ValidationError(
+          'password must be a string',
+          { parameter: 'password' }
+        );
+      }
+
+      if (password.length < 6) {
+        throw new ValidationError(
+          'password must be at least 6 characters long',
+          { parameter: 'password' }
+        );
+      }
+
+      if (password.length > 255) {
+        throw new ValidationError(
+          'password must be less than 255 characters',
+          { parameter: 'password' }
+        );
+      }
+    }
+
+    // Validate firstName if provided
+    if (firstName !== undefined && firstName !== null) {
+      if (typeof firstName !== 'string') {
+        throw new ValidationError(
+          'firstName must be a string',
+          { parameter: 'firstName' }
+        );
+      }
+      if (firstName.length > 255) {
+        throw new ValidationError(
+          'firstName must be less than 255 characters',
+          { parameter: 'firstName' }
+        );
+      }
+    }
+
+    // Validate lastName if provided
+    if (lastName !== undefined && lastName !== null) {
+      if (typeof lastName !== 'string') {
+        throw new ValidationError(
+          'lastName must be a string',
+          { parameter: 'lastName' }
+        );
+      }
+      if (lastName.length > 255) {
+        throw new ValidationError(
+          'lastName must be less than 255 characters',
+          { parameter: 'lastName' }
+        );
+      }
+    }
+
+    // Validate phone if provided
+    if (phone !== undefined && phone !== null) {
+      if (typeof phone !== 'string') {
+        throw new ValidationError(
+          'phone must be a string',
+          { parameter: 'phone' }
+        );
+      }
+      if (phone.trim().length > 50) {
+        throw new ValidationError(
+          'phone must be less than 50 characters',
+          { parameter: 'phone' }
+        );
+      }
+    }
+
+    // All validations passed
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
  * Validate DELETE /auth/me endpoint
  * 
  * Optional: password (for confirmation)
@@ -955,6 +1076,7 @@ module.exports = {
   validateGetBookings,
   validateCheckAvailability,
   validateGetBookingById,
+  validateUpdateProfile,
   validateDeleteAccount,
   VALID_CATEGORIES,
 };

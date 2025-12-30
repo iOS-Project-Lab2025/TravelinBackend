@@ -89,6 +89,33 @@ class AuthController {
   }
 
   /**
+   * Update user profile
+   * PATCH /auth/me
+   */
+  static async updateProfile(req, res, next) {
+    try {
+      const userId = req.userId;
+      const { email, password, firstName, lastName, phone } = req.body;
+
+      const updatedUser = await AuthService.updateUser(userId, {
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+      });
+
+      res.status(200).json({
+        data: {
+          user: updatedUser,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * Delete user account
    * DELETE /auth/me
    */
