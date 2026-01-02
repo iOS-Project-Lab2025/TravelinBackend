@@ -108,6 +108,11 @@ module.exports = {
         longitude: 2.160919,
         category: 'RESTAURANT',
         rank: 30,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/b9/ff/cd/photo2jpg.jpg?w=900&h=500&s=1',
+          'https://barcelonaroom.com/wp-content/uploads/2016/06/cerveceria-catalan.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfVpKuaApeV-ojeIZ0wa-GySK6D5rD02_2uw&s'
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'tapas',
@@ -129,6 +134,11 @@ module.exports = {
         longitude: 2.15463,
         category: 'RESTAURANT',
         rank: 30,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/50/f5/30/botafumeiro.jpg?w=700&h=400&s=1',
+          'https://media-cdn.tripadvisor.com/media/photo-s/05/50/f5/3d/botafumeiro.jpg',
+          'https://pillowandpepper.com/en/img/asset/bWFpbi9wcm9kdWN0L2cvYS9nYV9oYXVwdHJhdW1fYm90YWZ1bWVpcm8uanBlZw==?p=fullpreset&s=1b1af2f9b096a0703db60334b9433172',
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'seafood',
@@ -136,37 +146,6 @@ module.exports = {
           'professionalservices',
           'transport',
           'commercialplace',
-        ]),
-        createdAt: now,
-        updatedAt: now,
-      },
-      {
-        id: '5F1CED3994',
-        type: 'location',
-        subType: 'POINT_OF_INTEREST',
-        name: 'Casa Amatller',
-        latitude: 41.39148,
-        longitude: 2.164981,
-        category: 'SIGHTS',
-        rank: 100,
-        tags: JSON.stringify([
-          'sightseeing',
-          'sights',
-          'museum',
-          'landmark',
-          'restaurant',
-          'tourguide',
-          'historicplace',
-          'historic',
-          'attraction',
-          'commercialplace',
-          'activities',
-          'shopping',
-          'events',
-        ]),
-        pictures: JSON.stringify([
-          'https://images.example.com/casa-amatller-facade.jpg',
-          'https://images.example.com/casa-amatller-details.jpg',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -180,6 +159,11 @@ module.exports = {
         longitude: 2.167414,
         category: 'RESTAURANT',
         rank: 100,
+        pictures: JSON.stringify([
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhAXtAuwNpsGuJwl92IcyoVj2zFEMjGFGt8A&s',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVFO0lH4ZPcfKcs5r6WbdEfy_H5n0JvyniLw&s',
+          'https://offloadmedia.feverup.com/barcelonasecreta.com/wp-content/uploads/2025/01/20110629/04793mail.jpg',
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'tapas',
@@ -204,6 +188,11 @@ module.exports = {
         longitude: 2.153942,
         category: 'NIGHTLIFE',
         rank: 100,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/3b/d9/39/dry-martini-by-javier.jpg?w=1200&h=1200&s=1',
+          'https://drymartiniorg.com/wp-content/uploads/2015/02/foto-dry-team.jpg',
+          'https://cdn.thefork.com/tf-lab/image/upload/w_1080,c_fill,q_auto,f_auto/restaurant/8f80efbf-df64-4f3d-9c48-af2a2bfaee62/51c1da81-8a51-41d5-b807-b7244647a1a7.jpg',
+        ]),
         tags: JSON.stringify([
           'bar',
           'restaurant',
@@ -225,6 +214,10 @@ module.exports = {
         longitude: 2.159853,
         category: 'RESTAURANT',
         rank: 100,
+        pictures: JSON.stringify([
+          'https://miro.medium.com/0*NH26GXJ-HWyyPp_-.jpg',
+          'https://cdn.thefork.com/tf-lab/image/upload/restaurant/8199bcd6-c53a-4b34-a1e5-ea7db4358037/12cc06d7-3cbc-4571-822d-60589421b531.jpg',
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'sightseeing',
@@ -244,6 +237,10 @@ module.exports = {
         longitude: 2.156974,
         category: 'RESTAURANT',
         rank: 100,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/a6/fb/3c/misty-morning-for-sonoma.jpg?w=900&h=500&s=1',
+          'https://media-cdn.tripadvisor.com/media/photo-s/02/57/98/68/osmosis-spa-tea-gardens.jpg'
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'shopping',
@@ -262,6 +259,11 @@ module.exports = {
         longitude: -72.3311,
         category: 'SIGHTS',
         rank: 5,
+        pictures: JSON.stringify([
+          'https://upload.wikimedia.org/wikipedia/commons/c/ce/Torres_del_Paine_y_cuernos_del_Paine%2C_montaje.jpg',
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/37/28/93/undoubtedly-one-of-the.jpg?w=1400&h=1400&s=1',
+          'https://torresdelpaine.com/wp-content/uploads/sites/6/2025/08/torres-del-paine-2-dias-600x338.jpg'
+        ]),
         tags: JSON.stringify([
           'nationalpark',
           'hiking',
@@ -271,9 +273,6 @@ module.exports = {
           'sightseeing',
           'landmark',
           'activities',
-        ]),
-        pictures: JSON.stringify([
-          'https://www.chile.travel/wp-content/uploads/2016/11/torres-del-paine-1.jpg',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -287,6 +286,11 @@ module.exports = {
         longitude: -68.2550,
         category: 'SIGHTS',
         rank: 10,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/f7/05/33/valle-de-la-muerte.jpg?w=900&h=500&s=1',
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/28/c9/c9/valle-de-la-luna-rojo.jpg?w=1200&h=-1&s=1',
+          'https://upload.wikimedia.org/wikipedia/commons/b/b8/El_Valle_de_la_Luna_%28Chile%29.jpg'
+        ]),
         tags: JSON.stringify([
           'desert',
           'viewpoint',
@@ -294,9 +298,6 @@ module.exports = {
           'sightseeing',
           'landmark',
           'activities',
-        ]),
-        pictures: JSON.stringify([
-          'https://www.chile.travel/wp-content/uploads/2016/11/valle-de-la-luna.jpg',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -310,6 +311,11 @@ module.exports = {
         longitude: -109.3664,
         category: 'SIGHTS',
         rank: 10,
+        pictures: JSON.stringify([
+          'https://upload.wikimedia.org/wikipedia/commons/b/b6/AhuTongariki15Moais.jpg',
+          'https://tahailoft.cl/wp-content/uploads/2024/01/TOUR-FULL-DAY.png',
+          'https://storage.googleapis.com/chile-travel-cdn/2021/07/Descubre-la-magia-de-Rapa-Nui_Di%CC%81a-4-Ahu-Tongarik.jpg'
+        ]),
         tags: JSON.stringify([
           'unesco',
           'archaeologicalsite',
@@ -319,9 +325,6 @@ module.exports = {
           'landmark',
           'museum',
           'activities',
-        ]),
-        pictures: JSON.stringify([
-          'https://whc.unesco.org/uploads/thumbs/site_002.gif',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -335,6 +338,11 @@ module.exports = {
         longitude: -71.6197,
         category: 'SIGHTS',
         rank: 20,
+        pictures: JSON.stringify([
+          'https://whc.unesco.org/uploads/thumbs/site_0959_0020-1200-630-20151104163832.jpg',
+          'https://www.patrimoniocultural.gob.cl/sites/www.patrimoniocultural.gob.cl/files/styles/full_1140_auto_/public/2024-06/articles-83967_imagen_portada_oscura.jpg?itok=B9kjMmiQ',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGzI3OMBgxbCUn_4qthor_-A3b5pylaRyHKg&s'
+        ]),
         tags: JSON.stringify([
           'unesco',
           'historiccenter',
@@ -345,9 +353,6 @@ module.exports = {
           'activities',
           'shopping',
           'nightlife',
-        ]),
-        pictures: JSON.stringify([
-          'https://www.chile.travel/wp-content/uploads/2016/11/valparaiso-cerros.jpg',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -361,6 +366,11 @@ module.exports = {
         longitude: -70.6344,
         category: 'SIGHTS',
         rank: 15,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/0d/77/61/vista-do-cerro-san-cristobal.jpg?w=900&h=500&s=1',
+          'https://upload.wikimedia.org/wikipedia/commons/2/20/San_Crist%C3%B3bal_altura.jpg',
+          'https://regionesdechile.cl/wp-content/uploads/2023/10/Mirador-de-La-Virgen.jpg'
+        ]),
         tags: JSON.stringify([
           'viewpoint',
           'park',
@@ -368,9 +378,6 @@ module.exports = {
           'activities',
           'landmark',
           'cablecar',
-        ]),
-        pictures: JSON.stringify([
-          'https://www.chile.travel/wp-content/uploads/2016/11/cerro-san-cristobal-santiago.jpg',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -384,6 +391,11 @@ module.exports = {
         longitude: -70.6506,
         category: 'SIGHTS',
         rank: 30,
+        pictures: JSON.stringify([
+          'https://upload.wikimedia.org/wikipedia/commons/3/3e/Plaza_de_Armas.JPG',
+          'https://apuntesyviajes.com/wp-content/uploads/2024/09/plaza_de_armas_de_santiago.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPniqd5XlUxuRbF70INjnjrRfPvotJYFk4Bg&s'
+        ]),
         tags: JSON.stringify([
           'historiccenter',
           'square',
@@ -405,6 +417,10 @@ module.exports = {
         longitude: -73.7624,
         category: 'SIGHTS',
         rank: 40,
+        pictures: JSON.stringify([
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWDJ4ScIGWPGCdzG_c2x2G3iZzGZCLH8TaEQ&s',
+          'https://www.monumentos.gob.cl/sites/default/files/styles/4x3_mediano/public/image-monumentos/mh_00240_2017_tg_006.jpg?itok=KHrYgV66'
+        ]),
         tags: JSON.stringify([
           'unesco',
           'church',
@@ -428,6 +444,11 @@ module.exports = {
         longitude: -70.5920,
         category: 'SIGHTS',
         rank: 50,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/93/9c/16/maipo-valley-wine-tours.jpg?w=1200&h=-1&s=1',
+          'https://www.experiencechile.org/wp-content/uploads/2023/01/Haras-de-Pirque-Winery-Maipo-Experience-Chile.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWVa1PyW0XoGFXxacDC7oo3n7qOmaoUSZM8g&s'
+        ]),
         tags: JSON.stringify([
           'winery',
           'wine',
@@ -449,6 +470,11 @@ module.exports = {
         longitude: -70.5395,
         category: 'RESTAURANT',
         rank: 10,
+        pictures: JSON.stringify([
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/31/3f/58/20200308-065322-largejpg.jpg?w=900&h=500&s=1',
+          'https://www.congresoalar2025.cl/wp-content/uploads/2024/11/10_borago.jpg',
+          'https://www.congresoalar2025.cl/wp-content/uploads/2024/11/10_borago.jpg'
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'fineDining',
@@ -473,6 +499,11 @@ module.exports = {
         longitude: -70.6203,
         category: 'RESTAURANT',
         rank: 40,
+        pictures: JSON.stringify([
+          'https://www.liguria.cl/wp-content/uploads/2023/09/quienes-somos.jpeg',
+          'https://www.liguria.cl/wp-content/uploads/2023/11/manuel-mont-local.jpg',
+          'https://www.liguria.cl/wp-content/uploads/2023/10/Pedro-de-Valdivia-scaled.jpg'
+        ]),
         tags: JSON.stringify([
           'restaurant',
           'bar',
@@ -494,6 +525,11 @@ module.exports = {
         longitude: -70.6349,
         category: 'NIGHTLIFE',
         rank: 20,
+        pictures: JSON.stringify([
+          'https://media-cdn.tripadvisor.com/media/photo-s/09/bb/8d/b6/bellavista1-largejpg.jpg',
+          'https://disfrutasantiago.cl/wp-content/uploads/2022/11/barrio_bellavista-scaled.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuv8LZRHGsCGyvB5UdAqKehT33Jm5R0aNAvw&s'
+        ]),
         tags: JSON.stringify([
           'nightlife',
           'bar',
@@ -502,9 +538,6 @@ module.exports = {
           'streetart',
           'sightseeing',
           'activities',
-        ]),
-        pictures: JSON.stringify([
-          'https://www.chile.travel/wp-content/uploads/2016/11/barrio-bellavista-santiago.jpg',
         ]),
         createdAt: now,
         updatedAt: now,
@@ -518,6 +551,11 @@ module.exports = {
         longitude: -72.2220,
         category: 'SIGHTS',
         rank: 15,
+        pictures: JSON.stringify([
+          'https://upload.wikimedia.org/wikipedia/commons/7/74/Jeinimeni_Lago.jpg',
+          'https://www.rewildingchile.org/web/wp-content/uploads/2021/08/parque-nacional-patagonia.jpg',
+          'https://www.gochile.cl/fotos/header/110950-parque-nacional-patagonia-tompkins-conservation-2-1-.jpg'
+        ]),
         tags: JSON.stringify([
           'nationalpark',
           'hiking',
@@ -538,6 +576,11 @@ module.exports = {
         longitude: -68.0140,
         category: 'SIGHTS',
         rank: 25,
+        pictures: JSON.stringify([
+          'https://upload.wikimedia.org/wikipedia/commons/c/c3/G%C3%A9iseres_del_Tatio%2C_Atacama%2C_Chile%2C_2016-02-01%2C_DD_51-53_HDR.JPG',
+          'https://cdn.eso.org/images/publicationjpg/z4a8971-editar-cc.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBxf2DrRMsmObpdp1Z1jQm6-P1hLZ4j_sTXQ&s'
+        ]),
         tags: JSON.stringify([
           'geysers',
           'hotSprings',
@@ -558,6 +601,11 @@ module.exports = {
         longitude: -69.7870,
         category: 'SIGHTS',
         rank: 60,
+        pictures: JSON.stringify([
+          'https://c.files.bbci.co.uk/1FA6/production/_119620180_fafe71b4-5991-486b-ac87-666866776560.jpg',
+          'https://www.monumentos.gob.cl/sites/default/files/2025-06/articles-22615_imagen_06.jpg',
+          'https://www.cultura.gob.cl/wp-content/uploads/2019/07/1.-humberstone-from-above_credito-patricio-carvajal1.jpg'
+        ]),
         tags: JSON.stringify([
           'unesco',
           'historicplace',
@@ -578,6 +626,11 @@ module.exports = {
         longitude: -70.3800,
         category: 'SIGHTS',
         rank: 70,
+        pictures: JSON.stringify([
+          'https://upload.wikimedia.org/wikipedia/commons/8/8c/Sewell_flickr.jpg',
+          'https://www.fundacionsewell.org/img/inicio/3.jpg?date=2023-02-23-03:47:00',
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/eb/a9/c9/ciudad-minera-de-sewell.jpg?w=1200&h=1200&s=1'
+        ]),
         tags: JSON.stringify([
           'unesco',
           'historicplace',
